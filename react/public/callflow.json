@@ -1,0 +1,264 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "type": "handle-call",
+      "left": 0,
+      "top": 0
+    },
+    {
+      "id": "2",
+      "type": "answer-call",
+      "left": 0,
+      "top": 100
+    },
+    {
+      "id": "3",
+      "type": "play-audio",
+      "left": 240,
+      "top": 0,
+      "text": "Thanks for calling JsPlumb. One of our friendly operators will be with you shortly."
+    },
+    {
+      "id": "4",
+      "type": "request",
+      "left": 440,
+      "top": 0,
+      "url": "https://timeapi.io/api/Time/current/zone?timeZone=Australia/Sydney"
+    },
+    {
+      "id": "5",
+      "type": "play-audio",
+      "left": 380,
+      "top": 260,
+      "text": "Sorry, something went wrong. Please press 1 to leave a message or 2 to end the call."
+    },
+    {
+      "id": "6",
+      "type": "voicemail-recording",
+      "left": 630,
+      "top": 580
+    },
+    {
+      "id": "7",
+      "type": "hangup-call",
+      "left": 680,
+      "top": 780
+    },
+    {
+      "id": "8",
+      "type": "set-variables",
+      "left": 720,
+      "top": -200,
+      "variables": [
+        { "name": "start_time", "value": 9, "id": "1" },
+        { "name": "end_time", "value": 17, "id": "2" },
+        { "name": "hour", "value": "%{request_response.hour}", "id": "3" },
+        { "name": "minute", "value": "%{request_response.minute}", "id": "4" }
+      ]
+    },
+    {
+      "id": "9",
+      "type": "conditions",
+      "left": 760,
+      "top": 110,
+      "conditions": [
+        { "value": "%{hour} < %{start_time}", "id": "1", "order": 1 },
+        { "value": "%{hour} > %{end_time}", "id": "2", "order": 2 },
+        { "value": "Else", "id": "else", "order": 10000 },
+        { "value": "%{request_response.dayOfWeek} = 'Saturday'", "id": "3", "order": 3 },
+        { "value": "%{request_response.dayOfWeek} = 'Sunday'", "id": "4", "order": 4 }
+
+      ]
+    },
+    {
+      "id": "10",
+      "type": "play-audio",
+      "left": 660,
+      "top": 400,
+      "text": "For quality and training purposes, this call will be recorded"
+    },
+    {
+      "id": "11",
+      "type": "play-audio",
+      "left": 1090,
+      "top": 10,
+      "text": "The current time is %{time}. Our agents are not online. Please leave a message"
+    },
+    {
+      "id": "12",
+      "type": "voicemail-recording",
+      "left": 1110,
+      "top": 280
+    },
+    {
+      "id": "13",
+      "type": "hangup-call",
+      "left": 1430,
+      "top": 100
+    },
+    {
+      "id": "14",
+      "type": "start-recording",
+      "left": 880,
+      "top": 400
+    },
+    {
+      "id": "15",
+      "type": "call-forward",
+      "left": 880,
+      "top": 560,
+      "number": "222-2222"
+    },
+    {
+      "id": "16",
+      "type": "answer-call",
+      "left": 1180,
+      "top": 400
+    },
+    {
+      "id": "17",
+      "type": "stop-recording",
+      "left": 1280,
+      "top": 520
+    },
+    {
+      "id": "18",
+      "type": "play-audio",
+      "left": 1480,
+      "top": 520,
+      "text": "Our agents are busy furiously coding right now. Please leave a message"
+    },
+    {
+      "id": "19",
+      "type": "voicemail-recording",
+      "left": 1480,
+      "top": 280
+    },
+    {
+      "id": "20",
+      "type": "keypad-entry",
+      "left": 380,
+      "top": 600,
+      "keys": ["1", "2"]
+    }
+  ],
+  "edges": [
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4.failure",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "20"
+    },
+    {
+      "source": "20.1",
+      "target": "6"
+    },
+    {
+      "source": "20.2",
+      "target": "7"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "4.condition",
+      "target": "8"
+    },
+    {
+      "source": "4.else",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9.else",
+      "target": "10"
+    },
+    {
+      "source": "9.1",
+      "target": "11"
+    },
+    {
+      "source": "9.2",
+      "target": "11"
+    },
+    {
+      "source": "9.3",
+      "target": "11"
+    },
+    {
+      "source": "9.4",
+      "target": "11"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "12",
+      "target": "13"
+    },
+    {
+      "source": "10",
+      "target": "14"
+    },
+    {
+      "source": "14",
+      "target": "15"
+    },
+    {
+      "source": "15.success",
+      "target": "16"
+    },
+    {
+      "source": "16",
+      "target": "13"
+    },
+    {
+      "source": "15.no-answer",
+      "target": "17"
+    },
+    {
+      "source": "15.busy",
+      "target": "17"
+    },
+    {
+      "source": "15.decline",
+      "target": "17"
+    },
+    {
+      "source": "15.error",
+      "target": "17"
+    },
+    {
+      "source": "17",
+      "target": "18"
+    },
+    {
+      "source": "18",
+      "target": "19"
+    },
+    {
+      "source": "19",
+      "target": "13"
+    }
+  ]
+}

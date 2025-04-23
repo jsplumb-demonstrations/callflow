@@ -1,0 +1,35 @@
+@import "../node_modules/@jsplumbtoolkit/browser-ui/css/jsplumbtoolkit.css";
+@import "./callflow.css";
+@import "./callflow-inspector.css";
+
+body * {
+  font-family: sans-serif;
+}
+
+.jtk-demo-main {
+    width: 98vw;
+    height:100vh;
+    display:flex;
+}
+
+.jtk-demo-canvas {
+    flex-grow:1;
+    position:relative;
+}
+
+.jtk-surface {
+    height:100%;
+    width:100%;
+}
+
+.jtk-controls {
+    position:absolute;
+    left:1rem;
+    top:1rem;
+}
+
+.jtk-miniview {
+    position:absolute;
+    right:1rem;
+    top:1rem;
+}
